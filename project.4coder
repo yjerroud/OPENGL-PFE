@@ -1,0 +1,67 @@
+version(1);
+
+project_name = "OPENGL PFE";
+
+patterns = {
+	"*.c",
+	"*.cpp",
+	"*.c",
+	"*.h",
+	"*.hpp",
+	"*.glsl",
+	"*.bat",
+	"*.sh",
+	"*.4coder",
+};
+
+blacklist_patterns = {
+	".*", 
+};
+
+load_paths = {
+	{ {
+	  { ".", .relative = true, .recursive = false, },
+	  { "src\\", .relative = true, .recursive = true, },
+	  { "shaders\\", .relative = true, .recursive = true, },
+	}, .os = "win" },
+};
+
+command_list = {
+ 	{ .name = "build", 
+	  .out = "*compilation*", .footer_panel = true, .save_dirty_files = true, .cursor_at_end = false,
+	  .cmd = { {"build.bat", .os = "win" },
+				{"", .os = "mac"},
+				{"", .os = "linux"}},
+	},
+ 	{ .name = "buildwsl", 
+	  .out = "*compilation*", .footer_panel = true, .save_dirty_files = true, .cursor_at_end = false,
+	  .cmd = { {"wsl ./build.sh", .os = "win" },
+				{"", .os = "mac"},
+				{"", .os = "linux"}},
+	},
+	{ .name = "run",
+	  .out = "*run*", .footer_panel = true, .save_dirty_files = false, .cursor_at_end = true,
+	  .cmd = { {"build\\PFE.exe", .os = "win"},
+				{"", .os = "linux"},
+				{"", .os = "mac"}},
+	},
+	{ .name = "runwsl",
+	  .out = "*run*", .footer_panel = true, .save_dirty_files = false, .cursor_at_end = true,
+	  .cmd = { {"wsl ./build/PFE", .os = "win"},
+				{"", .os = "linux"},
+				{"", .os = "mac"}},
+	},
+	{
+		.name = "debug",
+		.cmd = { {"remedyBG build\\PFE.exe", .os = "win"},
+				 {"", .os = "linux"},
+				 {"", .os = "mac"},
+				},
+	},
+};
+
+fkey_command[1] = "build";
+fkey_command[2] = "buildwsl";
+fkey_command[5] = "run";
+fkey_command[6] = "runwsl";
+fkey_command[9] = "debug";
